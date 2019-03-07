@@ -5,14 +5,20 @@
  */
 package projectileshooter;
 
+import javafx.scene.shape.Circle;
+
 /**
  *
  * @author cstuser
  */
-public class Projectile extends GameObject {
+public class Projectile extends GameObject {    
+    
     public Projectile(Vector position, Vector velocity, Vector acceleration, double radius, String type)
     {
         super(position, velocity, acceleration, radius, type);
+        
+        //Might be wrong
+        //circle.setRadius(radius);
         
         //Checking what kind of projectile it is to assign the correct image        
         if(type == "fire") {

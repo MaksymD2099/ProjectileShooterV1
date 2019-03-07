@@ -34,5 +34,12 @@ public class Gun extends GameObject{
         if(type == "portalOut"){
             rectangle.setFill(AssetManager.getGunPortalOut());
         }
+        
+        /* we need this eventually
+        public String getGunType()
+        {
+            
+        }
+*/
     }    
 }

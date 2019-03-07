@@ -17,15 +17,15 @@ import javafx.scene.shape.Rectangle;
 import projectileshooter.Vector;
 
 public class GameObject {
-    protected Rectangle rectangle;
-    protected Circle circle;
-    private Vector position;
-    private Vector velocity;
-    private Vector acceleration;
-    private double height;
-    private double width;   
-    private double radius;
-    private String type;
+    public  Rectangle rectangle;
+    public Circle circle;
+    public Vector position;
+    public Vector velocity;
+    public Vector acceleration;
+    public double height;
+    public double width;   
+    public double radius;
+    public String type;
     
     //Circle constructor    
     public GameObject(Vector position, Vector velocity, Vector acceleration, double radius, String type)
@@ -37,8 +37,6 @@ public class GameObject {
         this.type = type;
         
         circle = new Circle(radius);       
-        //circle.setLayoutX(-width*0.5f);
-        //circle.setLayoutY(height*0.5f);
         circle.setCenterX(position.getX());
         circle.setCenterY(position.getY());    
     }   
@@ -72,6 +70,18 @@ public class GameObject {
         rectangle.setY(position.getY());
     }
     
+    //Constructor for wall
+    public GameObject(Vector position, double height, double width)
+    {
+        this.position = position;
+        this.height = height;
+        this.width = width;
+        
+        rectangle = new Rectangle(height, width);
+        rectangle.setX(position.getX());
+        rectangle.setY(position.getY());
+    }
+    
     public Rectangle getRectangle()
     {
         return rectangle;
@@ -82,8 +92,29 @@ public class GameObject {
         return circle;
     }
     
-    public void update(double dt)
+    
+    public void updateCircle(double dt) throws Exception
     {
+        try{
+        // Euler Integration
+        // Update velocity
+        Vector frameAcceleration = getAcceleration().mult(dt);
+        velocity = getVelocity().add(frameAcceleration);
+
+        // Update position
+        position = getPosition().add(getVelocity().mult(dt));
+        /*rectangle.setX(getPosition().getX());
+        rectangle.setY(getPosition().getY());
+        */
+        circle.setCenterX(getPosition().getX());
+        circle.setCenterY(getPosition().getY());
+        }
+        catch (Exception e){}
+    }
+    
+    public void updateRectangle(double dt) throws Exception
+    {
+        try{
         // Euler Integration
         // Update velocity
         Vector frameAcceleration = getAcceleration().mult(dt);
@@ -94,9 +125,12 @@ public class GameObject {
         rectangle.setX(getPosition().getX());
         rectangle.setY(getPosition().getY());
         
-        circle.setCenterX(getPosition().getX());
-        circle.setCenterY(getPosition().getY());
+        
+        }
+        catch (Exception e){}
     }
+    
+    
     
     //Getters and Setters for Class Variables
     
@@ -155,8 +189,6 @@ public class GameObject {
         radius = circle.getRadius();
         return radius;
     }    
-    
-    
     
     public Rectangle getRectangleCooridinates()
     {
